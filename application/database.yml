@@ -1,0 +1,25 @@
+development:
+  adapter: mysql2
+  database: muscat_3_0_development
+  encoding: utf8
+  host: db
+  port: 3306
+  username: rism
+  password: rism689
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the as development or production.
+test:
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000
+development:
+  adapter: mysql2
+  database: muscat_3_0_development
+  encoding: utf8
+  host: db
+  port: 3306
+  username: rism
+  password: rism689

@@ -1,0 +1,73 @@
+version: '3'
+services:
+  db:
+    image: mariadb
+    volumes:
+      - muscat_3_0_development:/var/lib/mysql
+      - data:/data
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3306
+    container_name: muscat_db
+    networks:
+      - muscat_network
+    deploy:
+      mode: global
+      placement:
+        constraints:
+         - node.hostname == zeus
+  solr:
+    image: rorymc/docker-solr-sunspot
+    ports:
+      - 8983
+    links:
+      - db
+    volumes:
+      - solr:/opt/solr/target/classes/solr/collection1/
+    networks:
+      - muscat_network
+    deploy:
+      mode: global
+      placement:
+        constraints:
+         - node.hostname == zeus
+  app:
+    image: rismit/muscat_app:3.6.12
+    links:
+      - db
+      - solr
+    depends_on:
+      - db
+      - solr
+    tty: true
+    volumes:
+      - data:/data
+    ports:
+      - 30002:3000
+    container_name: muscat_app
+    command:  rails s -b 0.0.0.0
+    networks:
+      - muscat_network
+    deploy:
+      #endpoint_mode: dnsrr
+      replicas: 3
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+volumes:
+  muscat_3_0_development:
+    driver: local
+  data:
+    driver: local
+  solr:
+    driver: local
+networks:
+  muscat_network:
+    driver: overlay
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
