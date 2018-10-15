@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 
 MAINTAINER Stephan Hirsch <stephan.hirsch@rism.info>
 
-RUN apt update && apt-get -y install nodejs sudo vim curl libmagickwand-dev openjdk-8-jre-headless git make gcc libmysqlclient-dev ruby ruby-dev ruby-bundler && \
+RUN apt update && apt-get -y install nodejs sudo vim curl libmagickwand-dev openjdk-8-jre-headless git make gcc mysql-server libmysqlclient-dev ruby ruby-dev ruby-bundler && \
  rm -rf /var/lib/apt/lists/* && useradd -ms /bin/bash admin && echo 'admin:admin' | chpasswd
 USER admin
 WORKDIR /home/admin

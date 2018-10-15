@@ -2,7 +2,7 @@ development:
   adapter: mysql2
   database: muscat_3_0_development
   encoding: utf8
-  host: db
+  host: localhost
   port: 3306
   username: rism
   password: rism689
@@ -15,7 +15,7 @@ test:
   database: db/test.sqlite3
   pool: 5
   timeout: 5000
-development:
+production:
   adapter: mysql2
   database: muscat_3_0_development
   encoding: utf8
